@@ -134,6 +134,8 @@ EOQ;
     );
   };
   $issues = array_map($map_results, $results);
+  // Permit other modules to modify the issues list.
+  drupal_alter('islandora_newspaper_get_issues', $issues, $object);
   // Grab the PIDs...
   $get_pid = function($o) {
     return $o['pid'];
