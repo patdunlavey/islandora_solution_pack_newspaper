@@ -24,10 +24,10 @@ function hook_islandora_newspaper_get_issues_alter(&$issues, $newspaper) {
 
   // Sort by date issued.
   function cmp($a, $b) {
-    if($a['issued'] == $b['issued']) {
+    if ($a['issued'] == $b['issued']) {
       return 0;
     }
-    return $a < $b ? 1 : -1;
+    return $a['issued'] < $b['issued'] ? -1 : 1;
   };
   usort($issues, 'cmp');
 }
