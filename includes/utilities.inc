@@ -94,7 +94,7 @@ WHERE {
   !optionals
   !filters
 }
-ORDER BY !order_by
+ORDER BY ?sequence
 EOQ;
 
   // XXX: Can't really use the fully featured query_filter and query_statements
@@ -108,15 +108,9 @@ EOQ;
     return "FILTER($filter)";
   };
 
-  // Default sort of issues is by sequence number, but permit this to be altered
-  // by other modules.
-  $order_by = '?sequence';
-  drupal_alter('newspaper_issue_sort', $order_by, $object);
-
   $query = format_string($query, array(
     '!optionals' => !empty($query_optionals) ? ('OPTIONAL {{' . implode('} UNION {', $query_optionals) . '}}') : '',
     '!filters' => implode(' ', array_map($filter_map, $query_filters)),
-    '!order_by' => $order_by,
   ));
 
   $results = $object->repository->ri->sparqlQuery($query);
